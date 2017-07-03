@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config>
+    <!--jdbc连接的公用配置-->
+    <jdbcConfig>
+        <!--mysql获取备注配置-->
+        <UseCurrentSchema>true</UseCurrentSchema>
+        <useInformationSchema>true</useInformationSchema>
+        <!--oracle获取备注配置-->
+        <remarks>true</remarks>
+    </jdbcConfig>
+    <!--数据库方言配置
+        use:当前采用的方言配置，参考dialog.name属性-->
+    <dialogs use="postgresql">
+        <dialog name="mysql" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://127.0.0.1:3306/p?serverTimezone=UTC&amp;useUnicode=true&amp;characterEncoding=UTF-8" username="root" password=""/>
+        <dialog name="postgresql" driver="org.postgresql.Driver" url="jdbc:postgresql://ip:port/cloud_scm" username="un" password="pwd"/>
+        <dialog name="oracle" driver="oracle.jdbc.driver.OracleDriver" url="jdbc:oracle:thin:@127.0.0.1:1521:ORCL" username="un" password="pwd"/>
+    </dialogs>
+    <!--生成器全局配置-->
+    <settings>
+        <!--依赖的jar包的路径 目前还未用上-->
+        <libDir>lib</libDir>
+        <!--生成器模板路径-->
+        <templatePath>template</templatePath>
+        <!--生成器生成位置配置-->
+        <genPath>gen-folder</genPath>
+        <!--生成器编码配置-->
+        <encoding>UTF-8</encoding>
+
+        <!--全局变量配置-->
+        <vars>
+            <!--生成代码中作者名称-->
+            <var name="auth" value="JavaHao"/>
+            <!--数据库字段类型与java类型的映射-->
+            <map name="typeSwitch">
+                <!--mysql-->
+                <var name="VARCHAR" value="String"/>
+                <var name="CHAR" value="String" />
+                <var name="TINYINT" value="Integer" />
+                <var name="BIGINT" value="Long" />
+                <var name="BIGINT UNSIGNED" value="Long" />
+                <var name="INT" value="Integer" />
+                <var name="DATETIME" value="Date" />
+                <var name="DATE" value="Date" />
+                <var name="DOUBLE" value="Double" />
+                <var name="BIT" value="Integer" />
+                <var name="SMALLINT" value="Integer" />
+                <var name="TIMESTAMP" value="Date" />
+                <!--postgresql-->
+                <var name="UUID" value="String"/>
+                <var name="INT2" value="Integer"/>
+                <!--oracle-->
+                <var name="VARCHAR2" value="String"/>
+                <var name="NUMBER" value="Integer" />
+                <var name="INTEGER" value="Integer" />
+            </map>
+            <!--在某些环境（根据模板编写）排除不生成字段-->
+            <list name="excludeColumns">
+                <var>id</var>
+                <var>tenant_id</var>
+                <var>is_system</var>
+                <var>create_user</var>
+                <var>create_time</var>
+                <var>update_user</var>
+                <var>update_time</var>
+                <var>delete_flag</var>
+            </list>
+        </vars>
+
+        <!--以下配置不同数据库之间大小写可能存在差异，建议：
+                mysql:采用小写/跟实际环境保持一致
+                postgresql:跟实际环境保持一致
+                oracle:全部大写/跟实际环境保持一致
+            配置：
+                mysql:
+                    catalog:''
+                    schema:databasename
+                    tableName:tableName
+                    genName:生成文件名建议与表名按驼峰写法写
+                    primary:主键id可以为空
+                    types:TABLE/VIEW，多个类型用“,”分割
+               postgresql:
+                    catalog:databasename
+                    其他同mysql
+               oracle:
+                    schema:username(大写)
+                    其他同mysql
+            -->
+
+        <!--生成表的配置-->
+        <gens>
+            <table catalog="cloud_scm" schema="cloud_scm" tableName="scm_delivertyp" genName="ScmDelivertyp" primary="id" types="TABLE">
+                <!--如果不配置模板，则直接读取template下的所有模板作为生成-->
+                <template name="${genName}.java" target="gen-folder"/>
+                <template name="${genName}Controller.java" target="gen-folder"/>
+                <template name="${genName}Dao.java" target="gen-folder"/>
+                <template name="${genName}DaoImpl.java" target="gen-folder"/>
+                <template name="${genName}Mapper.xml" target="gen-folder"/>
+                <template name="${genName}Service.java" target="gen-folder"/>
+                <template name="${genName}ServiceImpl.java" target="gen-folder"/>
+            </table>
+        </gens>
+    </settings>
+</config>
