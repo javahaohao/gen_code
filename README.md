@@ -47,4 +47,7 @@
 
 有兴趣的一起进群交流经验，求支持者打赏，我会继续努力的
 
-![微信](pay/wx_210.png) ![支付宝](pay/zfb_200.png)
+<figure class="half">
+    <img src="pay/wx.png" width="200">
+    <img src="pay/zfb.png" width="200">
+</figure>
