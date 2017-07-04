@@ -47,6 +47,6 @@
 
 有兴趣的一起进群交流经验，求支持者打赏，我会继续努力的
 
-![微信](pay/mm_facetoface_collect_qrcode_1499135773710.png)
+![微信](pay/mm_facetoface_collect_qrcode_1499135773710.png =200x300)
 
-![支付宝](pay/1499135847931.jpg)
+![支付宝](pay/1499135847931.jpg =200x300)
