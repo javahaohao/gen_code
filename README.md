@@ -49,5 +49,5 @@
 
 <figure class="half">
     <img src="pay/wx.png" width="200">
-    <img src="pay/zfb.png" width="200">
+    <img src="pay/zfb.jpg" width="200">
 </figure>
