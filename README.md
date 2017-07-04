@@ -48,6 +48,6 @@
 有兴趣的一起进群交流经验，求支持者打赏，我会继续努力的
 
 <figure class="half">
-    <img src="pay/wx.png" width="200">
-    <img src="pay/zfb.jpg" width="200">
+    <img src="http://git.oschina.net/javahao/gen_code/raw/master/pay/wx.png" width="200">
+    <img src="http://git.oschina.net/javahao/gen_code/raw/master/pay/zfb.jpg" width="200">
 </figure>
