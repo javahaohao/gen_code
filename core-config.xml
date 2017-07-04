@@ -12,9 +12,16 @@
         use:当前采用的方言配置，参考dialog.name属性-->
     <dialogs use="postgresql">
         <dialog name="mysql" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://127.0.0.1:3306/p?serverTimezone=UTC&amp;useUnicode=true&amp;characterEncoding=UTF-8" username="root" password=""/>
-        <dialog name="postgresql" driver="org.postgresql.Driver" url="jdbc:postgresql://ip:port/cloud_scm" username="un" password="pwd"/>
-        <dialog name="oracle" driver="oracle.jdbc.driver.OracleDriver" url="jdbc:oracle:thin:@127.0.0.1:1521:ORCL" username="un" password="pwd"/>
+        <dialog name="postgresql" driver="org.postgresql.Driver" url="jdbc:postgresql://rm-2ze8re41e5189py12o.pg.rds.aliyuncs.com:3432/cloud_scm" username="" password=""/>
+        <dialog name="oracle" driver="oracle.jdbc.driver.OracleDriver" url="jdbc:oracle:thin:@127.0.0.1:1521:ORCL" username="" password=""/>
     </dialogs>
+    <!--freemarker的标签插件,实现方式只需要将自定义类实现TemplateMethodModelEx类，即可在模板中使用-->
+    <freemarker>
+        <!--驼峰写法插件-->
+        <plugin name="camel" value="com.github.javahao.freemarker.UnderlineCapFirst"/>
+        <!--List集合包含插件-->
+        <plugin name="contains" value="com.github.javahao.freemarker.CollectionContains"/>
+    </freemarker>
     <!--生成器全局配置-->
     <settings>
         <!--依赖的jar包的路径 目前还未用上-->

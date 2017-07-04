@@ -35,12 +35,39 @@ public class ConfigParser {
         //加载全局变量
         parserSettings(node.element("settings"));
         System.out.println("[GenCode] |---------------- Loaded Global Variable Configuration Success!  ----------------|");
-        //获取到方言配置
+        //加载到方言配置
         parserDialogs(node.element("dialogs"));
+        //加载freemarker模板插件配置
+        parserFreeMarkerConfig(node);
         System.out.println("[GenCode] |---------------- Loaded Database Dialogs Configuration Success! ----------------|");
         System.out.println("[GenCode] |================ End Loading [GenCode] Settings Success!        ================|");
     }
 
+    /**
+     * 增加freemarker插件的配置类
+     * @param node config节点
+     */
+    public static void parserFreeMarkerConfig(Element node){
+        if(node!=null){
+            Element freemarker = node.element("freemarker");
+            if(freemarker!=null){
+                List<Element> plugins = freemarker.elements();
+                if(plugins!=null&&plugins.size()>0){
+                    for(Element p : plugins){
+                        try {
+                            CoreConfig.addVars(p.attributeValue("name"),Class.forName(p.attributeValue("value")).newInstance());
+                        } catch (InstantiationException e) {
+                            e.printStackTrace();
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }
+    }
     /**
      * 解析jdbc配置
      * @param node settings节点

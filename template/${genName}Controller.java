@@ -81,8 +81,7 @@ public class ${camel(table.tableName)?cap_first}Controller extends BaseControlle
      */
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
-    public MessageBody update(@RequestBody ${camel(table.tableName)?cap_first} ${camel(table.tableName)})  throws Exception
-    {
+    public MessageBody update(@RequestBody ${camel(table.tableName)?cap_first} ${camel(table.tableName)})  throws Exception{
         try {
             return MessageBody.getMessageBody(${camel(table.tableName)}Service.update(${camel(table.tableName)})>0);
         } catch (Exception e) {
@@ -99,8 +98,7 @@ public class ${camel(table.tableName)?cap_first}Controller extends BaseControlle
      */
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
-    public MessageBody delete(@RequestBody ${camel(table.tableName)?cap_first} ${camel(table.tableName)})  throws Exception
-    {
+    public MessageBody delete(@RequestBody ${camel(table.tableName)?cap_first} ${camel(table.tableName)})  throws Exception{
         try {
             return MessageBody.getMessageBody(${camel(table.tableName)}Service.delete(${camel(table.tableName)})>0);
         } catch (Exception e) {

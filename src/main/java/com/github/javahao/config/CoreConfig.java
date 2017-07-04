@@ -44,12 +44,7 @@ public class CoreConfig {
     /**
      * 全局变量配置
      */
-    private static Map<String,Object> vars = new HashMap<String, Object>(){
-        {
-            put("camel",new UnderlineCapFirst());
-            put("contains",new CollectionContains());
-        }
-    };
+    private static Map<String,Object> vars = new HashMap<String, Object>();
     /**
      * 生成表的配置
      */

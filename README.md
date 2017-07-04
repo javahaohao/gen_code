@@ -6,7 +6,11 @@
 
 |-----jre						  jre运行环境
 
-|-----lib						  运行依赖的lib包，增加其他数据库支持，将驱动放置此包配置core-config.xml中dialog即可
+|-----lib						  程序运行依赖的lib包
+
+|-----driver                      增加其他数据库支持，将驱动放置此包配置core-config.xml中dialog即可
+
+|-----plugins                     freemarker插件扩展包，增加模板自定义标签可将实现类打包jar放入此包修改配置文件freemarker的节点
 
 |-----template					  FreeMarker模板文件存储路径，可通过core-config.xml修改
 
@@ -14,9 +18,11 @@
 
 |-----gencode-1.0-RELEASE.jar	  生成器主要程序
 
-|-----run.bat				  	  运行启动程序
+|-----run.bat				  	  windows运行启动程序
 
-|-----READEME.txt				  使用说明
+|-----run.sh				  	  linux运行启动程序
+
+|-----READEME.md				  使用说明
 ##原理
     本程序使用FreeMarker模板引擎，采用数据库反向生成的思想研发的代码生成器，初次使用建议先阅读READEME.TXT以及core-config.xml配置文件
 ##支持
@@ -26,7 +32,7 @@
 
 	    *   1、根据各自业务场景配置template下的模板文件
 	    *   2、修改core-config.xml配置文件，进行个性化配置
-	    *   3、运行run.bat即可生成代码
+	    *   3、运行run.bat/run.sh即可生成代码
 
     #####AUTH:JavaHao
     #####QQ:353475081
