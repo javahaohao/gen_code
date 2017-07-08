@@ -51,7 +51,7 @@
       <artifactId>gen_code</artifactId>
       <version>1.1-RELEASE</version>
     </dependency>
-
+    将依赖引入项目中，并按照core-config.xml进行配置即可
 ## 使用方式
 *   步骤大体如下：
 
