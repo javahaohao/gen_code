@@ -35,7 +35,7 @@ public class GenCode {
                     continue;
                 System.out.println("[GenCode]  ================ Begin Generate Table ["+tc.getTableName()+"("+table.getColumns().size()+" columns)],Loading........====");
                 Map<String,Object> vars = tc.cpProToVars();
-                vars.put("table",table);
+                vars.put(tc.getVar(),table);
                 for(Map.Entry<String,Template> entry:templates.entrySet()){
                     try {
                         File target = new File(entry.getValue().getTarget()+File.separator+FreeMarkerUtil.renderStr(entry.getKey(),vars));

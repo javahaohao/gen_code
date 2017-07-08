@@ -10,10 +10,10 @@
     </jdbcConfig>
     <!--数据库方言配置
         use:当前采用的方言配置，参考dialog.name属性-->
-    <dialogs use="postgresql">
+    <dialogs use="oracle">
         <dialog name="mysql" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://127.0.0.1:3306/p?serverTimezone=UTC&amp;useUnicode=true&amp;characterEncoding=UTF-8" username="root" password=""/>
         <dialog name="postgresql" driver="org.postgresql.Driver" url="jdbc:postgresql://rm-2ze8re41e5189py12o.pg.rds.aliyuncs.com:3432/cloud_scm" username="" password=""/>
-        <dialog name="oracle" driver="oracle.jdbc.driver.OracleDriver" url="jdbc:oracle:thin:@127.0.0.1:1521:ORCL" username="" password=""/>
+        <dialog name="oracle" driver="oracle.jdbc.driver.OracleDriver" url="jdbc:oracle:thin:@127.0.0.1:1521:ORCL" username="choiceall" password="choiceall"/>
     </dialogs>
     <!--freemarker的标签插件,实现方式只需要将自定义类实现TemplateMethodModelEx类，即可在模板中使用-->
     <freemarker>
@@ -58,6 +58,7 @@
                 <!--oracle-->
                 <var name="VARCHAR2" value="String"/>
                 <var name="NUMBER" value="Integer" />
+                <var name="FLOAT" value="Float" />
                 <var name="INTEGER" value="Integer" />
             </map>
             <!--在某些环境（根据模板编写）排除不生成字段-->
@@ -95,7 +96,7 @@
 
         <!--生成表的配置-->
         <gens>
-            <table catalog="cloud_scm" schema="cloud_scm" tableName="scm_delivertyp" genName="ScmDelivertyp" primary="id" types="TABLE">
+            <table  var="table" catalog="" schema="CHOICEALL" tableName="POSITN" genName="Positn" primary="id" types="TABLE">
                 <!--如果不配置模板，则直接读取template下的所有模板作为生成-->
                 <template name="${genName}.java" target="gen-folder"/>
                 <template name="${genName}Controller.java" target="gen-folder"/>

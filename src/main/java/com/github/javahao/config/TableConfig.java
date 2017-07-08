@@ -31,6 +31,8 @@ public class TableConfig {
 
     private String types;
 
+    private String var;
+
     /**
      * 模板文件配置
      */
@@ -110,5 +112,13 @@ public class TableConfig {
 
     public void addTemplateConfig(String name, Template template) {
         this.templateConfig.put(name,template);
+    }
+
+    public String getVar() {
+        return var;
+    }
+
+    public void setVar(String var) {
+        this.var = var;
     }
 }
