@@ -46,13 +46,11 @@
 
 ## Maven依赖支持
 
-    ```xml
     <dependency>
       <groupId>com.github.javahaohao</groupId>
       <artifactId>gen_code</artifactId>
       <version>1.1-RELEASE</version>
     </dependency>
-    ```
 
 ## 使用方式
 *   步骤大体如下：
