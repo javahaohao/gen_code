@@ -10,7 +10,7 @@
     </jdbcConfig>
     <!--数据库方言配置
         use:当前采用的方言配置，参考dialog.name属性-->
-    <dialogs use="oracle">
+    <dialogs use="mysql">
         <dialog name="mysql" driver="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://127.0.0.1:3306/p?serverTimezone=UTC&amp;useUnicode=true&amp;characterEncoding=UTF-8" username="root" password=""/>
         <dialog name="postgresql" driver="org.postgresql.Driver" url="jdbc:postgresql://rm-2ze8re41e5189py12o.pg.rds.aliyuncs.com:3432/cloud_scm" username="" password=""/>
         <dialog name="oracle" driver="oracle.jdbc.driver.OracleDriver" url="jdbc:oracle:thin:@127.0.0.1:1521:ORCL" username="choiceall" password="choiceall"/>
@@ -42,6 +42,7 @@
                 <!--mysql-->
                 <var name="VARCHAR" value="String"/>
                 <var name="CHAR" value="String" />
+                <var name="TEXT" value="String" />
                 <var name="TINYINT" value="Integer" />
                 <var name="BIGINT" value="Long" />
                 <var name="BIGINT UNSIGNED" value="Long" />
@@ -52,6 +53,7 @@
                 <var name="BIT" value="Integer" />
                 <var name="SMALLINT" value="Integer" />
                 <var name="TIMESTAMP" value="Date" />
+                <var name="DECIMAL" value="BigDecimal" />
                 <!--postgresql-->
                 <var name="UUID" value="String"/>
                 <var name="INT2" value="Integer"/>
@@ -96,15 +98,15 @@
 
         <!--生成表的配置-->
         <gens>
-            <table  var="table" catalog="" schema="CHOICEALL" tableName="POSITN" genName="Positn" primary="id" types="TABLE">
-                <!--如果不配置模板，则直接读取template下的所有模板作为生成-->
+            <table  var="table" catalog="p" schema="p" tableName="sys_user" genName="User" primary="id" types="TABLE">
+                <!--如果不配置模板，则直接读取template下的所有模板作为生成
                 <template name="${genName}.java" target="gen-folder"/>
                 <template name="${genName}Controller.java" target="gen-folder"/>
                 <template name="${genName}Dao.java" target="gen-folder"/>
                 <template name="${genName}DaoImpl.java" target="gen-folder"/>
                 <template name="${genName}Mapper.xml" target="gen-folder"/>
                 <template name="${genName}Service.java" target="gen-folder"/>
-                <template name="${genName}ServiceImpl.java" target="gen-folder"/>
+                <template name="${genName}ServiceImpl.java" target="gen-folder"/>-->
             </table>
         </gens>
     </settings>

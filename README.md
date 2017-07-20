@@ -25,6 +25,8 @@
 
 |-----template					  FreeMarker模板文件存储路径，可通过core-config.xml修改
 
+|-----template-bak                作者模板备份，供开发使用者参考编写
+
 |-----core-config.xml			  全局文件配置
 
 |-----gencode-1.0-RELEASE.jar	  生成器主要程序
