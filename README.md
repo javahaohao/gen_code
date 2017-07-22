@@ -61,6 +61,92 @@
 	    *   2、修改core-config.xml配置文件，进行个性化配置
 	    *   3、运行run.bat/run.sh即可生成代码
 
+*    模板变量属性参考
+
+          *    表变量属性
+```java
+    private String tableCat;
+    /**
+     * 表所属数据库
+     */
+    private String tableSchema;
+    /**
+     * 表名称
+     */
+    private String tableName;
+    /**
+     * 表类型
+     */
+    private String tableType;
+    /**
+     * 表引擎类型
+     */
+    private String engine;
+    /**
+     * 表备注
+     */
+    private String tableComment;
+    /**
+     * 拥有的字段
+     */
+    private List<Column> columns = new ArrayList<Column>();
+    /**
+     * 生成表的配置
+     */
+    private TableConfig tableConfig;
+```
+
+          *    字段变量属性
+
+```java
+    /**
+     * 字段名称
+     */
+    private String columnName;
+    /**
+     * 字段类型char(30)
+     */
+    private String columnType;
+    /**
+     * 数据类型char
+     */
+    private String dataType;
+    /**
+     * 字段备注
+     */
+    private String columnComment;
+    /**
+     * 键值类型
+     */
+    private String columnKey;
+    /**
+     * 是否为空
+     */
+    private boolean nullable;
+    /**
+     * 字段长度
+     */
+    private Long columnLength;
+    /**
+     * 所属表
+     */
+    private Table table;
+    /**
+     * 是否主键
+     */
+    private boolean primary;
+    /**
+     * 是否自增长
+     */
+    private boolean autoincrement;
+
+    private boolean generatedColumn;
+    /**
+     * 表中字段的索引位置
+     */
+    private int ordinalPosition;
+```
+
 ## 使用技巧
     * 1、使用过程中的配置各种路径的时候可以采用相对路径的方式，将生成的代码直接定位到自己的工程里面，省去了繁琐的拷贝时间
     * 2、灵活的运用变量可以变相的解决一些复杂性的问题
