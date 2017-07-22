@@ -42,6 +42,16 @@ public class Column {
      * 是否主键
      */
     private boolean primary;
+    /**
+     * 是否自增长
+     */
+    private boolean autoincrement;
+
+    private boolean generatedColumn;
+    /**
+     * 表中字段的索引位置
+     */
+    private int ordinalPosition;
 
     public Column() {
     }
@@ -127,5 +137,47 @@ public class Column {
 
     public void setPrimary(boolean primary) {
         this.primary = primary;
+    }
+
+    public boolean isAutoincrement() {
+        return autoincrement;
+    }
+
+    public void setAutoincrement(boolean autoincrement) {
+        this.autoincrement = autoincrement;
+    }
+
+    public boolean isGeneratedColumn() {
+        return generatedColumn;
+    }
+
+    public void setGeneratedColumn(boolean generatedColumn) {
+        this.generatedColumn = generatedColumn;
+    }
+
+    public int getOrdinalPosition() {
+        return ordinalPosition;
+    }
+
+    public void setOrdinalPosition(int ordinalPosition) {
+        this.ordinalPosition = ordinalPosition;
+    }
+
+    @Override
+    public String toString() {
+        return "Column{" +
+                "columnName='" + columnName + '\'' +
+                ", columnType='" + columnType + '\'' +
+                ", dataType='" + dataType + '\'' +
+                ", columnComment='" + columnComment + '\'' +
+                ", columnKey='" + columnKey + '\'' +
+                ", nullable=" + nullable +
+                ", columnLength=" + columnLength +
+                ", table=" + table +
+                ", primary=" + primary +
+                ", autoincrement=" + autoincrement +
+                ", generatedColumn=" + generatedColumn +
+                ", ordinalPosition=" + ordinalPosition +
+                '}';
     }
 }

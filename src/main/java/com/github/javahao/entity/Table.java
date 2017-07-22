@@ -11,6 +11,7 @@ import java.util.List;
  * auth：JavaHao
  */
 public class Table {
+    private String tableCat;
     /**
      * 表所属数据库
      */
@@ -49,6 +50,14 @@ public class Table {
         this.tableType = tableType;
         this.engine = engine;
         this.tableComment = tableComment;
+    }
+
+    public String getTableCat() {
+        return tableCat;
+    }
+
+    public void setTableCat(String tableCat) {
+        this.tableCat = tableCat;
     }
 
     public String getTableSchema() {
@@ -105,5 +114,19 @@ public class Table {
 
     public void setTableConfig(TableConfig tableConfig) {
         this.tableConfig = tableConfig;
+    }
+
+    @Override
+    public String toString() {
+        return "Table{" +
+                "tableCat='" + tableCat + '\'' +
+                ", tableSchema='" + tableSchema + '\'' +
+                ", tableName='" + tableName + '\'' +
+                ", tableType='" + tableType + '\'' +
+                ", engine='" + engine + '\'' +
+                ", tableComment='" + tableComment + '\'' +
+                ", columns=" + columns +
+                ", tableConfig=" + tableConfig +
+                '}';
     }
 }

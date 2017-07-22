@@ -50,6 +50,9 @@ public class CoreConfig {
      */
     private static List<TableConfig> gens = new ArrayList<TableConfig>();
 
+    public static final String YES="YES";
+    public static final String NO="NO";
+
     public static Properties getJdbcConfig() {
         return jdbcConfig;
     }

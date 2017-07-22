@@ -6,10 +6,7 @@ import com.github.javahao.entity.Column;
 import com.github.javahao.entity.Table;
 import com.github.javahao.util.FreeMarkerUtil;
 
-import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,8 +35,12 @@ public class TableQuery {
 
             ResultSet tables = dmd.getTables(tc.getCatalog(), tc.getSchema(), tc
                     .getTableName(), tc.getTypes());
+//            printItems(tables);
             while (tables.next())
             {
+                table.setTableCat(tables.getString("TABLE_CAT"));
+                table.setTableSchema(tables.getString("TABLE_SCHEM"));
+                table.setTableType(tables.getString("TABLE_TYPE"));
                 table.setTableName(tables.getString("TABLE_NAME"));
                 table.setTableComment(tables.getString("REMARKS"));
 
@@ -52,14 +53,18 @@ public class TableQuery {
 
                 ResultSet columns = dmd.getColumns(tc.getCatalog(), tc
                         .getSchema(), tc.getTableName(), "%");
+//                printItems(columns);
                 while (columns.next()) {
                     Column c = new Column();
                     c.setColumnName(columns.getString("COLUMN_NAME"));
                     c.setPrimary(keys.contains(c.getColumnName()));
                     c.setDataType(columns.getString("TYPE_NAME"));
-                    c.setNullable(columns.getInt("NULLABLE")!=0);
+                    c.setNullable(CoreConfig.YES.equals(columns.getString("NULLABLE")));
                     c.setColumnComment(columns.getString("REMARKS"));
                     c.setColumnLength(columns.getLong("COLUMN_SIZE"));
+                    c.setOrdinalPosition(Integer.parseInt(columns.getString("ORDINAL_POSITION")));
+                    c.setAutoincrement(CoreConfig.YES.equals(columns.getString("IS_AUTOINCREMENT")));
+                    c.setGeneratedColumn(CoreConfig.YES.equals(columns.getString("IS_GENERATEDCOLUMN")));
                     table.addColumns(c);
                 }
             }
@@ -72,5 +77,18 @@ public class TableQuery {
             //将配置应用到表中
             table.setTableConfig(tc);
         return table;
+    }
+
+    public void printItems(ResultSet rs){
+        ResultSetMetaData rm = null;
+        try {
+            rm = rs.getMetaData();
+            int columnNum = rm.getColumnCount();
+            for (int i=1;i<=columnNum;i++){
+                System.out.println(i+"\t"+rm.getColumnName(i));
+            }
+        }catch (Exception e){
+
+        }
     }
 }
