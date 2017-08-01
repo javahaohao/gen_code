@@ -38,7 +38,9 @@ public class GenCode {
                 vars.put(tc.getVar(),table);
                 for(Map.Entry<String,Template> entry:templates.entrySet()){
                     try {
-                        File target = new File(entry.getValue().getTarget()+File.separator+FreeMarkerUtil.renderStr(entry.getKey(),vars));
+                        File target = new File(FreeMarkerUtil.renderStr((entry.getValue().getTarget()+File.separator+entry.getKey()),vars));
+                        if(!target.getParentFile().exists())
+                            target.getParentFile().mkdirs();
                         writer = new OutputStreamWriter(new FileOutputStream(target), "utf-8");
                         FreeMarkerUtil.process(entry.getKey(),vars,writer);
                         System.out.println("[GenCode] The File ["+target.getCanonicalPath()+"] Already Generated！");

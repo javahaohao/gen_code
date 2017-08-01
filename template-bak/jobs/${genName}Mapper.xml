@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.choice.schedule.crud.mapper.${camel(table.tableName)?cap_first}Mapper" >
+	<sql id="columns">
+		<#list table.columns as column>
+		${column.columnName} AS "${camel(column.columnName)}"<#if column_has_next>,</#if>
+		</#list>
+	</sql>
+	<select id="find" parameterType="${camel(table.tableName)?cap_first}" resultType="${camel(table.tableName)?cap_first}">
+		select
+		<include refid="columns"/>
+		from ${table.tableName}
+		<where>
+			<#list table.columns as column>
+			<if test="${camel(column.columnName)} != null and ${camel(column.columnName)} != ''">
+				AND ${column.columnName}=${"#"}{${camel(column.columnName)}}
+			</if>
+			</#list>
+		</where>
+	</select>
+	<insert id="save" parameterType="${camel(table.tableName)?cap_first}">
+		insert into
+		${table.tableName}(
+			<#list table.columns as column>
+			${column.columnName}<#if column_has_next>,</#if>
+			</#list>
+		)
+		values(
+			<#list table.columns as column>
+			${"#"}{${camel(column.columnName)}}<#if column_has_next>,</#if>
+			</#list>
+		)
+	</insert>
+	<update id="update" parameterType="${camel(table.tableName)?cap_first}">
+		update
+		${table.tableName}
+		<set>
+			<#list table.columns as column>
+			<#if column.primary>
+			<#else>
+			<if test="${camel(column.columnName)} != null">
+				${column.columnName}=${"#"}{${camel(column.columnName)}}<#if column_has_next>,</#if>
+			</if>
+			</#if>
+			</#list>
+		</set>
+		where id=${"#"}{id}
+	</update>
+	<delete id="deleteBatch" parameterType="list">
+		delete from ${table.tableName}
+		WHERE id IN
+		<foreach item="item" collection="list"
+				 open="(" separator="," close=")">
+			${"#"}{item}
+		</foreach>
+	</delete>
+</mapper>

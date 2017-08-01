@@ -2,6 +2,10 @@
     打造中国最好用的代码生成器，让“程序猿”有更多的时间陪老婆孩子，让你爱上写代码。
     
 ### 版本升级
+    *  1.2版本（2017-07-31）
+        a、增加生成文件路径变量控制，优化代码
+        b、增加生成代码模板
+        c、完善生成路径不存在自动创建模块文件夹
     *  1.1版本（2017-07-08）
         a、优化生成器功能，优化代码
         b、增加代码生成器模板引擎插件支持
@@ -51,7 +55,7 @@
     <dependency>
       <groupId>com.github.javahaohao</groupId>
       <artifactId>gen_code</artifactId>
-      <version>1.1-RELEASE</version>
+      <version>1.2-RELEASE</version>
     </dependency>
     将依赖引入项目中，并按照core-config.xml进行配置即可
 ## 使用方式
