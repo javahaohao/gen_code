@@ -32,6 +32,7 @@ public class TableConfig {
     private String types;
 
     private String var;
+    private String gen;
 
     /**
      * 模板文件配置
@@ -51,6 +52,7 @@ public class TableConfig {
         data.put("genName",getGenName());
         data.put("primary",getPrimary());
         data.put("types",getTypes());
+        data.put("gen",getGen());
         return data;
     }
 
@@ -120,5 +122,16 @@ public class TableConfig {
 
     public void setVar(String var) {
         this.var = var;
+    }
+
+    public String getGen() {
+        return gen;
+    }
+
+    public void setGen(String gen) {
+        this.gen = gen;
+    }
+    public boolean isGen(){
+        return Boolean.TRUE.toString().equals(getGen());
     }
 }

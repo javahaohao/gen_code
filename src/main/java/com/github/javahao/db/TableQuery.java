@@ -23,11 +23,20 @@ public class TableQuery {
         return tq;
     }
     /**
-     * 按照配置获取生成表的基本信息
+     * 按照配置获取生成表的基本信息，并关闭连接池
      * @param tc 生成表的配置
      * @return 返回结果
      */
     public Table getTable(TableConfig tc){
+        return getTable(tc,true);
+    }
+    /**
+     * 按照配置获取生成表的基本信息
+     * @param tc 生成表的配置
+     * @param close 是否关闭连接池
+     * @return 返回结果
+     */
+    public Table getTable(TableConfig tc,boolean close){
         Table table = new Table();
         try{
             java.sql.Connection conn = Connection.getInstance().getConnection();
@@ -71,7 +80,8 @@ public class TableQuery {
         } catch (SQLException e) {
             e.printStackTrace();
         }finally {
-            Connection.getInstance().close();
+            if(close)
+                Connection.getInstance().close();
         }
         if(table!=null)
             //将配置应用到表中

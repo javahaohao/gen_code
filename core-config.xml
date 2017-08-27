@@ -49,13 +49,13 @@
                 <var name="BIGINT" value="Long" />
                 <var name="BIGINT UNSIGNED" value="Long" />
                 <var name="INT" value="Integer" />
-                <var name="DATETIME" value="Date" />
-                <var name="DATE" value="Date" />
+                <var name="DATETIME" value="java.util.Date" />
+                <var name="DATE" value="java.util.Date" />
                 <var name="DOUBLE" value="Double" />
                 <var name="BIT" value="Integer" />
                 <var name="SMALLINT" value="Integer" />
-                <var name="TIMESTAMP" value="Date" />
-                <var name="DECIMAL" value="BigDecimal" />
+                <var name="TIMESTAMP" value="java.util.Date" />
+                <var name="DECIMAL" value="java.math.BigDecimal" />
                 <!--postgresql-->
                 <var name="UUID" value="String"/>
                 <var name="INT2" value="Integer"/>
@@ -96,11 +96,13 @@
                oracle:
                     schema:username(大写)
                     其他同mysql
+               var:定义变量
+               gen:是否生成
             -->
 
         <!--生成表的配置-->
         <gens>
-            <table  var="table" catalog="p" schema="p" tableName="jobs_company" genName="JobsCompany" primary="id" types="TABLE">
+            <table  var="table" catalog="p" schema="p" tableName="jobs_company" genName="JobsCompany" primary="id" types="TABLE" gen="true">
                 <!--如果不配置模板，则直接读取template下的所有模板作为生成-->
                 <template name="${genName}.java" target="gen-folder/${module}"/>
                 <!--<template name="${genName}Controller.java" target="gen-folder/${module}"/>
