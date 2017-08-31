@@ -3,9 +3,12 @@ package com.github.javahao.util;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.HashSet;
+import java.util.Set;
 
 public class AnalysisObject {
 	private static final String SETTER_PREFIX = "set";
@@ -173,5 +176,20 @@ public class AnalysisObject {
 				&& !method.isAccessible()) {
 			method.setAccessible(true);
 		}
+	}
+
+	/**
+	 * 判断指定类是否包含指定属性
+	 * @param clz 类
+	 * @param field 包含的属性
+	 * @return 结果
+	 */
+	public static boolean containsField(Class clz,String field){
+		Field[] fields = clz.getDeclaredFields();
+		Set<String> fieldNames = new HashSet<String>();
+		for(Field f:fields){
+			fieldNames.add(f.getName());
+		}
+		return fieldNames.contains(field);
 	}
 }

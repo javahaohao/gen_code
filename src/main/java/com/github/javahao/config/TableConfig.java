@@ -33,6 +33,10 @@ public class TableConfig {
 
     private String var;
     private String gen;
+    /**
+     * table标签的内部扩展变量，可以覆盖全局变量
+     */
+    private Map<String,Object> extVars = new HashMap<String, Object>();
 
     /**
      * 模板文件配置
@@ -53,6 +57,8 @@ public class TableConfig {
         data.put("primary",getPrimary());
         data.put("types",getTypes());
         data.put("gen",getGen());
+        //增加table的扩展属性
+        data.putAll(getExtVars());
         return data;
     }
 
@@ -133,5 +139,13 @@ public class TableConfig {
     }
     public boolean isGen(){
         return Boolean.TRUE.toString().equals(getGen());
+    }
+
+    public Map<String, Object> getExtVars() {
+        return extVars;
+    }
+
+    public void addExtVars(String key,Object value) {
+        this.extVars.put(key,value);
     }
 }

@@ -113,17 +113,21 @@ public class ConfigParser {
                 List<Element> tables = gensE.elements("table");
                 if(tables!=null&&tables.size()>0){
                     for(Element te : tables){
-                        TableConfig tc = new TableConfig();
+                        final TableConfig tc = new TableConfig();
                         List<Element> templates = te.elements("template");
                         if(templates!=null&&templates.size()>0){
                             for(Element teme : templates){
                                 Template temp = new Template();
-                                temp = fillObj(temp,teme,false);
+                                temp = fillObj(temp,teme,false,null);
                                 tc.addTemplateConfig(temp.getName(),temp);
                             }
                         }else
                             tc.addTemplateConfig(getTemplates());
-                        tableConfigs.add(fillObj(tc,te));
+                        tableConfigs.add(fillObj(tc, te, true, new ParserHandler() {
+                            public void handler(String field, Object value) {
+                                tc.addExtVars(field,value);
+                            }
+                        }));
                     }
                 }
             }
@@ -248,7 +252,7 @@ public class ConfigParser {
      * @return 返回结果
      */
     public static <T> T fillObj(T obj, Element element){
-        return fillObj(obj,element,true);
+        return fillObj(obj,element,true,null);
     }
     /**
      * 将指定节点的属性设置到对象里面
@@ -257,10 +261,14 @@ public class ConfigParser {
      * @param tempflag 模板化标识
      * @return 返回结果
      */
-    public static <T> T fillObj(T obj, Element element,boolean tempflag){
+    public static <T> T fillObj(T obj, Element element,boolean tempflag,ParserHandler parserHandler){
         if(element!=null){
             List<Attribute> attributes = element.attributes();
             for(Attribute a:attributes){
+                if(parserHandler!=null&&!AnalysisObject.containsField(obj.getClass(),a.getName())){
+                    parserHandler.handler(a.getName(),a.getValue());
+                    continue;
+                }
                 AnalysisObject.invokeSetter(obj,a.getName(),
                         tempflag?FreeMarkerUtil.render(a.getValue()):a.getValue());
             }
