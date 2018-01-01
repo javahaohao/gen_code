@@ -3,9 +3,11 @@ package com.github.javahao.parser;
 import com.github.javahao.config.CoreConfig;
 import com.github.javahao.config.TableConfig;
 import com.github.javahao.entity.Dialog;
+import com.github.javahao.entity.Relation;
 import com.github.javahao.entity.Template;
 import com.github.javahao.util.AnalysisObject;
 import com.github.javahao.util.FreeMarkerUtil;
+import freemarker.template.TemplateModelException;
 import org.dom4j.Attribute;
 import org.dom4j.Element;
 
@@ -55,12 +57,14 @@ public class ConfigParser {
                 if(plugins!=null&&plugins.size()>0){
                     for(Element p : plugins){
                         try {
-                            CoreConfig.addVars(p.attributeValue("name"),Class.forName(p.attributeValue("value")).newInstance());
+                            FreeMarkerUtil.addSharedVariable(p.attributeValue("name"),Class.forName(p.attributeValue("value")).newInstance());
                         } catch (InstantiationException e) {
                             e.printStackTrace();
                         } catch (IllegalAccessException e) {
                             e.printStackTrace();
                         } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (TemplateModelException e) {
                             e.printStackTrace();
                         }
                     }
@@ -114,20 +118,35 @@ public class ConfigParser {
                 if(tables!=null&&tables.size()>0){
                     for(Element te : tables){
                         final TableConfig tc = new TableConfig();
+                        //模板配置
                         List<Element> templates = te.elements("template");
                         if(templates!=null&&templates.size()>0){
                             for(Element teme : templates){
-                                Template temp = new Template();
-                                temp = fillObj(temp,teme,false,null);
+                                final Template temp = new Template();
+                                fillObj(temp,teme,false,new ParserHandler() {
+                                    public void handler(String field, Object value) {
+                                        temp.addExtVars(field,value);
+                                    }
+                                });
                                 tc.addTemplateConfig(temp.getName(),temp);
                             }
                         }else
                             tc.addTemplateConfig(getTemplates());
+                        //关系配置
+                        List<Element> relations = te.elements("relation");
+                        if(relations!=null&&relations.size()>0){
+                            for(Element r : relations){
+                                final Relation relation = new Relation();
+                                fillObj(relation,r,false,null);
+                                tc.addRelations(relation);
+                            }
+                        }
                         tableConfigs.add(fillObj(tc, te, true, new ParserHandler() {
                             public void handler(String field, Object value) {
                                 tc.addExtVars(field,value);
                             }
                         }));
+                        CoreConfig.addConfigMap(tc.getVar(),tc);
                     }
                 }
             }

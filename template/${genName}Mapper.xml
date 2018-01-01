@@ -1,39 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.choice.schedule.crud.mapper.${camel(table.tableName)?cap_first}Mapper" >
+<mapper namespace="com.github.${extVars.pkg}.dao.${extVars.module}.${genName}Mapper" >
 	<sql id="columns">
 		<#list table.columns as column>
-		${column.columnName} AS "${camel(column.columnName)}"<#if column_has_next>,</#if>
+		t.${column.columnName} AS "${camel(column.columnName)}"<#if column_has_next||(parents?size>0)||(childs?size>0)>,</#if>
+		</#list>
+		<#list parents?values as parent>
+		<#list parent.table.columns as column>
+		p${parent_index}.${column.columnName} AS "${camel(parent.genName)}.${camel(column.columnName)}"<#if parent_has_next||column_has_next||(childs?size>0)>,</#if>
+		</#list>
+		</#list>
+		<#list childs?values as child>
+		<#list child.table.columns as column>
+		c${child_index}.${column.columnName} AS ${child.tableName}_${column.columnName}<#if child_has_next||column_has_next>,</#if>
+		</#list>
 		</#list>
 	</sql>
-	<select id="find" parameterType="${camel(table.tableName)?cap_first}" resultType="${camel(table.tableName)?cap_first}">
-		select
+	<#if (childs?size>0)>
+	<resultMap id="${camel(genName)}Map" type="${genName}">
+		<#list table.columns as column>
+		<#if column.primary>
+		<id column="${camel(column.columnName)}" property="${camel(column.columnName)}"/>
+		<#else>
+		<result column="${camel(column.columnName)}" property="${camel(column.columnName)}"/>
+		</#if>
+		</#list>
+		<#list parents?values as parent>
+		<#list parent.table.columns as column>
+		<result column="${parent.tableName}_${column.columnName}" property="${camel(parent.genName)}.${camel(column.columnName)}"/>
+		</#list>
+		</#list>
+		<#list childs?values as child>
+		<collection property="${camel(child.genName)}List" javaType="list" ofType="${child.genName}">
+			<#list child.table.columns as column>
+			<#if column.primary>
+			<id column="${child.tableName}_${column.columnName}" property="${camel(column.columnName)}"/>
+			<#else>
+			<result column="${child.tableName}_${column.columnName}" property="${camel(column.columnName)}"/>
+			</#if>
+			</#list>
+		</collection>
+		</#list>
+	</resultMap>
+	</#if>
+	<select id="list" parameterType="${genName}" <#if (childs?size>0)>resultMap="${camel(genName)}Map"<#else>resultType="${genName}"</#if>>
+		SELECT
 		<include refid="columns"/>
-		from ${table.tableName}
+		FROM ${tableName} t
+		<#list parents?keys as key>
+		LEFT JOIN ${parents?values[key_index].tableName} p${key_index} ON p${key_index}.${parents?values[key_index].primary}=t.${key.foreignKey}
+		</#list>
+		<#list childs?keys as key>
+		LEFT JOIN ${childs?values[key_index].tableName} c${key_index} ON c${key_index}.${key.foreignKey}=t.${primary}
+		</#list>
 		<where>
 			<#list table.columns as column>
 			<if test="${camel(column.columnName)} != null and ${camel(column.columnName)} != ''">
-				AND ${column.columnName}=${"#"}{${camel(column.columnName)}}
+				AND t.${column.columnName}=${"#"}{${camel(column.columnName)}}
 			</if>
 			</#list>
 		</where>
+		ORDER BY t.created_at DESC
 	</select>
-	<insert id="save" parameterType="${camel(table.tableName)?cap_first}">
-		insert into
-		${table.tableName}(
+	<insert id="save" parameterType="${genName}">
+		INSERT INTO
+		${tableName}(
 			<#list table.columns as column>
 			${column.columnName}<#if column_has_next>,</#if>
 			</#list>
 		)
-		values(
+		VALUES(
 			<#list table.columns as column>
 			${"#"}{${camel(column.columnName)}}<#if column_has_next>,</#if>
 			</#list>
 		)
 	</insert>
-	<update id="update" parameterType="${camel(table.tableName)?cap_first}">
-		update
-		${table.tableName}
+	<update id="update" parameterType="${genName}">
+		UPDATE
+		${tableName}
 		<set>
 			<#list table.columns as column>
 			<#if column.primary>
@@ -44,14 +88,14 @@
 			</#if>
 			</#list>
 		</set>
-		where id=${"#"}{id}
+		WHERE id=${"#"}{id}
 	</update>
-	<delete id="deleteBatch" parameterType="list">
-		delete from ${table.tableName}
+	<delete id="delete" parameterType="${genName}">
+		DELETE FROM ${tableName}
 		WHERE id IN
-		<foreach item="item" collection="list"
+		<foreach item="idList" collection="idList"
 				 open="(" separator="," close=")">
-			${"#"}{item}
+			${"#"}{idList}
 		</foreach>
 	</delete>
 </mapper>

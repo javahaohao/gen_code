@@ -3,10 +3,7 @@ package com.github.javahao.util;
 import com.github.javahao.config.CoreConfig;
 import freemarker.cache.FileTemplateLoader;
 import freemarker.cache.StringTemplateLoader;
-import freemarker.template.Configuration;
-import freemarker.template.DefaultObjectWrapper;
-import freemarker.template.Template;
-import freemarker.template.TemplateExceptionHandler;
+import freemarker.template.*;
 
 import java.io.*;
 import java.util.Map;
@@ -22,6 +19,21 @@ public class FreeMarkerUtil {
         config = new Configuration();
         config.setDefaultEncoding(CoreConfig.getEncoding());
         config.setObjectWrapper(new DefaultObjectWrapper());
+        try {
+            config.setSharedVaribles(CoreConfig.getVars());
+        } catch (TemplateModelException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 添加freemark自定义指令
+     * @param name 指令名称
+     * @param instance 指令实例
+     * @throws TemplateModelException 异常
+     */
+    public static void addSharedVariable(String name,Object instance) throws TemplateModelException {
+        config.setSharedVariable(name,instance);
     }
     /**
      * 获取渲染之后的字符串
@@ -29,7 +41,7 @@ public class FreeMarkerUtil {
      * @param data 模板中渲染的参数
      * @return 返回结果
      */
-    public static String renderStr(String content,Map<String,Object> data){
+    public static String renderStr(String content,Object data){
         String result = null;
         try {
             Template t = new Template(null,new StringReader(content),null);
@@ -58,7 +70,7 @@ public class FreeMarkerUtil {
      * @param data 数据
      * @param writer 输出方式
      */
-    public static void process(String temp, Map<String,Object> data, Writer writer){
+    public static void process(String temp, Object data, Writer writer){
         try {
             config.setDirectoryForTemplateLoading(new File(System .getProperty("user.dir")+File.separator+CoreConfig.getTemplatePath()));
             Template template = config.getTemplate(temp,CoreConfig.getEncoding());

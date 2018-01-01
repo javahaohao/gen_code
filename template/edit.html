@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<${"#"}assign plugins="validate"/>
+<head>
+    <title>${table.tableComment}编辑</title>
+    <${"#"}include "/include/link.html"/>
+</head>
+<body>
+    <div class="page-content-area">
+        <div class="page-header">
+            <h1>
+                ${table.tableComment}
+                <small>
+                    <i class="ace-icon fa fa-angle-double-right"></i>
+                    编辑
+                </small>
+            </h1>
+        </div><!-- /.page-header -->
+
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- PAGE CONTENT BEGINS -->
+                <form class="subform" action="${"$"}{ctx}/${extVars.module}/edit" method="post">
+                    <input type="hidden" id="id" name="id" value="${"$"}{${genName?uncap_first}.id!}"/>
+                    <p>
+                        <${"@"}shiro.hasPermission name="${extVars.module}:create">
+                        <button type="submit" class="btn btn-primary btn-sm btn-save">保存</button>
+                        </${"@"}shiro.hasPermission>
+                        <button type="button" class="btn btn-secondary btn-sm btn-cancle">取消</button>
+                    </p>
+                <#list table.columns as column>
+                    <#if !contains(excludeColumns,column.columnName)>
+                    <div class="form-group row">
+                        <label for="${camel(column.columnName)}" class="col-sm-2 col-form-label text-right">${column.columnComment}</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="${camel(column.columnName)}" value="${"$"}{${genName?uncap_first}.${camel(column.columnName)}!}" class="form-control" id="${camel(column.columnName)}" placeholder="${column.columnComment}">
+                        </div>
+                    </div>
+                    </#if>
+                </#list>
+                </form>
+                <!-- PAGE CONTENT ENDS -->
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.page-content-area -->
+    <foot>
+        <${"#"}include "/include/script.html"/>
+        <script type="text/javascript">
+            ${"$"}(function(){
+                formValidate(${"$"}('.subform'),'validate-msg-error','div',{
+                    <#list table.columns as column>
+                    <#if !contains(excludeColumns,column.columnName)>
+                    ${camel(column.columnName)}:{
+                        required: '${column.columnComment}必填！'
+                    }<#if column_has_next>,</#if>
+                    </#if>
+                    </#list>
+                },{
+                    <#list table.columns as column>
+                    <#if !contains(excludeColumns,column.columnName)>
+                    ${camel(column.columnName)}:{
+                        required: true
+                    }<#if column_has_next>,</#if>
+                    </#if>
+                    </#list>
+                },'.valid-warp');
+                ${"$"}('.btn-cancle').on('click',function () {
+                    window.history.back();
+                });
+            });
+        </script>
+    </foot>
+</body>
+</html>

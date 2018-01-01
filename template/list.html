@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<${"#"}assign plugins=""/>
+<head>
+    <title>${table.tableComment}列表</title>
+    <${"#"}include "/include/link.html"/>
+</head>
+<body>
+    <div class="page-content-area">
+        <div class="page-header">
+            <h1>
+                ${table.tableComment}
+                <small>
+                    <i class="ace-icon fa fa-angle-double-right"></i>
+                    列表
+                </small>
+            </h1>
+        </div><!-- /.page-header -->
+
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- PAGE CONTENT BEGINS -->
+                <div class="error-warp"></div>
+                <p>
+                    <${"@"}shiro.hasPermission name="${extVars.module}:create">
+                    <button type="button" class="btn btn-primary btn-sm btn-add">新增</button>
+                    </${"@"}shiro.hasPermission>
+                    <${"@"}shiro.hasPermission name="${extVars.module}:delete">
+                    <button type="button" class="btn btn-danger btn-sm btn-delete">删除</button>
+                    </${"@"}shiro.hasPermission>
+                </p>
+                <table class="table table-striped table-hover table-sm">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="checkAll"></th>
+                            <th>#</th>
+                            <#list table.columns as column>
+                                <#if !contains(excludeColumns,column.columnName)>
+                            <th>${column.columnComment}</th>
+                                </#if>
+                            </#list>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <${"#"}list list as ${genName?uncap_first}>
+                            <tr>
+                                <td><input type="checkbox" value="${"$"}{${genName?uncap_first}.id}" name="idList"></td>
+                                <td scope="row">${"$"}{${genName?uncap_first}_index+1}</td>
+                                <#list table.columns as column>
+                                    <#if !contains(excludeColumns,column.columnName)>
+                                <td>${"$"}{${genName?uncap_first}.${camel(column.columnName)}!}</td>
+                                    </#if>
+                                </#list>
+                                <td>
+                                    <${"@"}shiro.hasPermission name="${extVars.module}:update">
+                                    <a href="${"$"}{ctx}/${extVars.module}/edit?id=${"$"}{${genName?uncap_first}.id!}">修改</a>
+                                    </${"@"}shiro.hasPermission>
+                                </td>
+                            </tr>
+                        </${"#"}list>
+
+                    </tbody>
+                </table>
+                <!-- PAGE CONTENT ENDS -->
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.page-content-area -->
+    <foot>
+        <${"#"}include "/include/script.html"/>
+        <script type="text/javascript">
+            ${"$"}(function(){
+               ${"$"}('.btn-add').on('click',function () {
+                    window.location.href='${"$"}{ctx}/${extVars.module}/edit';
+               });
+                ${"$"}('.btn-delete').on('click',function () {
+                    var ${"$"}checks = ${"$"}('tbody [name="idList"]:checkbox:checked');
+                    if(${"$"}checks.length==0){
+                        error("请至少选择一条数据进行操作！",${"$"}('.error-warp'));
+                        return false;
+                    }
+                    var idArray=[];
+                    ${"$"}checks.each(function(){
+                        idArray.push(${"$"}(this).val());
+                    });
+                    alert({
+                        content:'您确定要删除选择的数据？',
+                        sureHandler:function(){
+                            window.location.href='${"$"}{ctx}/${extVars.module}/delete?id='+idArray.join(',');
+                        }
+                    });
+                });
+                bindCheckAllEvent();
+            });
+        </script>
+    </foot>
+</body>
+</html>

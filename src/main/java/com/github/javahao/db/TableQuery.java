@@ -73,7 +73,8 @@ public class TableQuery {
                     c.setColumnLength(columns.getLong("COLUMN_SIZE"));
                     c.setOrdinalPosition(Integer.parseInt(columns.getString("ORDINAL_POSITION")));
                     c.setAutoincrement(CoreConfig.YES.equals(columns.getString("IS_AUTOINCREMENT")));
-                    c.setGeneratedColumn(CoreConfig.YES.equals(columns.getString("IS_GENERATEDCOLUMN")));
+                    if(!CoreConfig.getDialog().getName().equals("postgresql"))
+                        c.setGeneratedColumn(CoreConfig.YES.equals(columns.getString("IS_GENERATEDCOLUMN")));
                     table.addColumns(c);
                 }
             }
@@ -83,9 +84,11 @@ public class TableQuery {
             if(close)
                 Connection.getInstance().close();
         }
-        if(table!=null)
+        if(table!=null) {
             //将配置应用到表中
             table.setTableConfig(tc);
+            tc.setTable(table);
+        }
         return table;
     }
 

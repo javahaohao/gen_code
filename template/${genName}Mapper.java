@@ -1,13 +1,13 @@
-package com.choice.schedule.crud.mapper;
+package com.github.${extVars.pkg}.dao.${extVars.module};
 
-import com.choice.base.MyBatisMapper;
-import com.choice.schedule.crud.entity.${camel(table.tableName)?cap_first};
-import com.choice.base.BaseMapper;
+import com.github.javahao.annotation.MyBatisMapper;
+import com.github.javahao.base.BaseMapper;
+import com.github.${extVars.pkg}.entity.${extVars.module}.${genName};
 /**
  * usedfor：[DAO]${table.tableComment}
  * Created by ${auth} on ${.now?string("yyyy/MM/dd HH:mm:ss")}.
  * auth：${auth}
  */
 @MyBatisMapper
-public interface ${camel(table.tableName)?cap_first}Mapper extends BaseMapper<${camel(table.tableName)?cap_first}>{
+public interface ${genName}Mapper extends BaseMapper<${genName}>{
 }

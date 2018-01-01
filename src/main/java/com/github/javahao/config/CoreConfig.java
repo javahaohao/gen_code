@@ -1,8 +1,6 @@
 package com.github.javahao.config;
 
 import com.github.javahao.entity.Dialog;
-import com.github.javahao.freemarker.CollectionContains;
-import com.github.javahao.freemarker.UnderlineCapFirst;
 
 import java.util.*;
 
@@ -49,6 +47,7 @@ public class CoreConfig {
      * 生成表的配置
      */
     private static List<TableConfig> gens = new ArrayList<TableConfig>();
+    private static Map<String,Object> configMap = new HashMap<String, Object>();
 
     public static final String YES="YES";
     public static final String NO="NO";
@@ -158,5 +157,13 @@ public class CoreConfig {
 
     public static void setEncoding(String encoding) {
         CoreConfig.encoding = encoding;
+    }
+
+    public static Map<String, Object> getConfigMap() {
+        return configMap;
+    }
+
+    public static void addConfigMap(String var,TableConfig config) {
+        CoreConfig.configMap.put(var,config);
     }
 }

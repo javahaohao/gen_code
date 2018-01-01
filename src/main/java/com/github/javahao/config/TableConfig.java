@@ -1,8 +1,12 @@
 package com.github.javahao.config;
 
+import com.github.javahao.entity.Relation;
+import com.github.javahao.entity.Table;
 import com.github.javahao.entity.Template;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,25 +46,16 @@ public class TableConfig {
      * 模板文件配置
      */
     private Map<String,Template> templateConfig = new HashMap<String, Template>();
-
     /**
-     * 将配置信息加入到全局变量中
-     * @return 返回扩展的全局变量
+     * 表结构
      */
-    public Map<String,Object> cpProToVars(){
-        Map<String,Object> data = new HashMap<String, Object>();
-        data.putAll(CoreConfig.getVars());
-        data.put("catalog",getCatalog());
-        data.put("tableName",getTableName());
-        data.put("schema",getSchema());
-        data.put("genName",getGenName());
-        data.put("primary",getPrimary());
-        data.put("types",getTypes());
-        data.put("gen",getGen());
-        //增加table的扩展属性
-        data.putAll(getExtVars());
-        return data;
-    }
+    private Table table;
+    /**
+     * 关系
+     */
+    private List<Relation> relations = new ArrayList<Relation>();
+    private Map<Relation,TableConfig> parents = new HashMap<Relation,TableConfig>();
+    private Map<Relation,TableConfig> childs = new HashMap<Relation,TableConfig>();
 
     public String getCatalog() {
         return catalog;
@@ -147,5 +142,43 @@ public class TableConfig {
 
     public void addExtVars(String key,Object value) {
         this.extVars.put(key,value);
+    }
+
+    public Table getTable() {
+        return table;
+    }
+
+    public void setTable(Table table) {
+        this.table = table;
+    }
+
+    public List<Relation> getRelations() {
+        return relations;
+    }
+
+    public void addRelations(Relation relation) {
+        if(relation==null)
+            return;
+        this.relations.add(relation);
+    }
+
+    public Map<Relation,TableConfig> getParents() {
+        return parents;
+    }
+
+    public void addParents(Relation relation,TableConfig parent) {
+        if(parent==null)
+            return;
+        this.parents.put(relation,parent);
+    }
+
+    public Map<Relation,TableConfig> getChilds() {
+        return childs;
+    }
+
+    public void addChilds(Relation relation,TableConfig child) {
+        if(child==null)
+            return;
+        this.childs.put(relation,child);
     }
 }
