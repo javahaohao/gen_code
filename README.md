@@ -2,7 +2,7 @@
     打造中国最好用的代码生成器，让“程序猿”有更多的时间陪老婆孩子，让你爱上写代码。
     
 ### 版本升级
-    *  1.6升级信息
+    *  1.6（2018-01-01）升级信息
         a、优化了freemark的变量加载侧率
         c、支持表多关系生成侧率
         d、增加了模板配置案例
@@ -65,7 +65,7 @@
     <dependency>
       <groupId>com.github.javahaohao</groupId>
       <artifactId>gen_code</artifactId>
-      <version>1.5-RELEASE</version>
+      <version>1.6-RELEASE</version>
     </dependency>
     将依赖引入项目中，并按照core-config.xml进行配置即可
 ## 使用方式
